@@ -5,13 +5,15 @@
     <title>Index</title>
 </head>
 <body>
+
 <div th:each="user : ${users}">
-    <a th:href="@{/users/show(id=${user.getId()})}"
-       th:text="${user.getFirstName() + ', ' + user.getLastName() + ', '
-       + user.getAge() + ', ' + user.getEmail()}">user</a>
+    <a th:href="@{/show/{id}(id=${user.getId()})}"
+       th:text="${user.getUsername() + ', ' + user.getRoles() + ', ' + user.getId()}">user</a>
 </div>
+
 <br/>
 <hr/>
 <a href="/users/new">Create new person</a>
+
 </body>
 </html>
