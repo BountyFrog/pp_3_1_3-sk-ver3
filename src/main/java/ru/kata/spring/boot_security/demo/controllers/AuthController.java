@@ -1,16 +1,16 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.services.RegistrationService;
 import ru.kata.spring.boot_security.demo.util.UserValidator;
 
-import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 
 @Controller
@@ -35,19 +35,13 @@ public class AuthController {
         return "login";
     }
 
-//    @GetMapping("/registration")
-//    public String registrationPage(@ModelAttribute("user") User user) {
-//        return "registration";
-//    }
-//
-//    @PostMapping("/registration")
-//    public String performRegistration(@ModelAttribute("user") @Valid User user,
-//                                      BindingResult bindingResult) {
-//        userValidator.validate(user, bindingResult);
-//        if (bindingResult.hasErrors()) {
-//            return "registration";
-//        }
-//        registrationService.add(user);
-//        return "redirect:/login";
-//    }
+    @GetMapping("/logout")
+    public String customLogout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+
+        return "redirect:/login?logout";
+    }
 }

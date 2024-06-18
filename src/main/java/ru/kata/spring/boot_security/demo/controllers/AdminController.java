@@ -12,7 +12,7 @@ import ru.kata.spring.boot_security.demo.util.UserValidator;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/admin/")
+@RequestMapping("/admin")
 public class AdminController {
 
     private final AdminService adminService;
@@ -30,11 +30,9 @@ public class AdminController {
         return "admin/show";
     }
 
-    @GetMapping("users")
+    @GetMapping("")
     public String showAllUsers(Model model) {
-        System.out.println("1");
         model.addAttribute("users", adminService.findAll());
-        System.out.println("1");
         return "admin/users";
     }
 
@@ -46,14 +44,10 @@ public class AdminController {
     @PostMapping("create")
     public String create(@ModelAttribute("user") @Valid User user,
                          BindingResult bindingResult) {
-        System.out.println("Контроллер запущен.");
         userValidator.validate(user, bindingResult);
-        System.out.println("Валидатор пройден.");
         if (bindingResult.hasErrors()) return "admin/new";
-        System.out.println("Ошибок нет.");
         adminService.add(user);
-        System.out.println("Пользовател сохранен.");
-        return "redirect:users";
+        return "redirect:/admin";
     }
 
     @GetMapping("/{id}/edit")
@@ -68,12 +62,12 @@ public class AdminController {
                          @PathVariable("id") int id) {
         if (bindingResult.hasErrors()) return "admin/edit";
         adminService.update(id, user);
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable("id") int id) {
         adminService.delete(id);
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 }
