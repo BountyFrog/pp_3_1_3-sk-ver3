@@ -9,18 +9,11 @@ import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 import ru.kata.spring.boot_security.demo.security.UserDetailsImpl;
 
-import java.util.Optional;
-
 @Service
 @Transactional(readOnly = true)
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
-
-    public User findOne(int id) {
-        Optional<User> foundUser = userRepository.findById(id);
-        return foundUser.orElse(null);
-    }
 
     @Autowired
     public UserDetailsServiceImpl(UserRepository userRepository) {
