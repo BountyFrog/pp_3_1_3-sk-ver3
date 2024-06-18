@@ -7,8 +7,8 @@
 <body>
 <p th:text="${user.getUsername() + ', ' + user.getRoles()+ '.'}">value</p>
 <p th:text="${user.getId()}">VALUE</p>
-<a th:href="@{/users/edit(id=${user.getId()})}">Edit</a>
-<form th:method="POST" th:action="@{/users/delete(id=${user.getId()})}">
+<a th:href="@{/admin/{id}/edit(id=${user.getId()})}">Edit</a>
+<form th:method="POST" th:action="@{/admin/{id}/delete(id=${user.getId()})}">
     <input type="submit" value="Delete"/>
 </form>
 </body>

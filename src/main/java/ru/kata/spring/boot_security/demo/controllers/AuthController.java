@@ -35,19 +35,19 @@ public class AuthController {
         return "login";
     }
 
-    @GetMapping("/registration")
-    public String registrationPage(@ModelAttribute("user") User user) {
-        return "registration";
-    }
-
-    @PostMapping("/registration")
-    public String performRegistration(@ModelAttribute("user") @Valid User user,
-                                      BindingResult bindingResult) {
-        userValidator.validate(user, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "registration";
-        }
-        registrationService.add(user);
-        return "redirect:/login";
-    }
+//    @GetMapping("/registration")
+//    public String registrationPage(@ModelAttribute("user") User user) {
+//        return "registration";
+//    }
+//
+//    @PostMapping("/registration")
+//    public String performRegistration(@ModelAttribute("user") @Valid User user,
+//                                      BindingResult bindingResult) {
+//        userValidator.validate(user, bindingResult);
+//        if (bindingResult.hasErrors()) {
+//            return "registration";
+//        }
+//        registrationService.add(user);
+//        return "redirect:/login";
+//    }
 }

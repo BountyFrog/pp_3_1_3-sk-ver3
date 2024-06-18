@@ -34,18 +34,18 @@ public class RegistrationService {
         return userRepository.findByUsername(username);
     }
 
-    public boolean add(User user) {
-        User userFromDB = userRepository.findByUsername(user.getUsername());
-        if (userFromDB != null) {
-            return false;
-        }
-        setRoleDefault(user);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return true;
-    }
-
-    public void setRoleDefault(User user) {
-        user.getRoles().add(roleRepository.findByName("ROLE_USER").orElse(null));
-    }
+//    public boolean add(User user) {
+//        User userFromDB = userRepository.findByUsername(user.getUsername());
+//        if (userFromDB != null) {
+//            return false;
+//        }
+//        setRoleDefault(user);
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        userRepository.save(user);
+//        return true;
+//    }
+//
+//    public void setRoleDefault(User user) {
+//        user.getRoles().add(roleRepository.findByName("ROLE_USER").orElse(null));
+//    }
 }

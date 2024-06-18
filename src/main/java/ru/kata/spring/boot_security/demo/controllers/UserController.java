@@ -2,69 +2,26 @@ package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.User;
-import ru.kata.spring.boot_security.demo.services.UserService;
-import ru.kata.spring.boot_security.demo.util.UserValidator;
+import ru.kata.spring.boot_security.demo.repositories.UserRepository;
+import ru.kata.spring.boot_security.demo.security.UserDetailsImpl;
+import ru.kata.spring.boot_security.demo.services.UserDetailsServiceImpl;
 
-import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 public class UserController {
 
-    private final UserService userService;
-    private final UserValidator userValidator;
+    private final UserDetailsServiceImpl userDetailsService;
 
-    public UserController(UserService userService, UserValidator userValidator) {
-        this.userService = userService;
-        this.userValidator = userValidator;
+    public UserController(UserDetailsServiceImpl userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
 
-    @GetMapping("users")
-    public String showAllUsers(Model model) {
-        model.addAttribute("users", userService.findAll());
-        return "users";
-    }
-
-    @GetMapping("show/{id}")
-    public String showUser(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userService.findOne(id));
-        return "show";
-    }
-
-    @GetMapping("new")
-    public String newUser(@ModelAttribute("user") User user) {
-        return "new";
-    }
-
-    @PostMapping("create")
-    public String createUser(@ModelAttribute("user") User user,
-                             BindingResult bindingResult) {
-        userValidator.validate(user, bindingResult);
-        if (bindingResult.hasErrors()) return "new";
-        userService.save(user);
-        return "redirect:/users";
-    }
-
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("user", userService.findOne(id));
-        return "edit";
-    }
-
-    @PostMapping("/{id}/update")
-    public String update(@ModelAttribute("user") @Valid User user,
-                         BindingResult bindingResult,
-                         @PathVariable("id") int id) {
-        if (bindingResult.hasErrors()) return "edit";
-        userService.update(id, user);
-        return "redirect:/users";
-    }
-
-    @PostMapping("/{id}/delete")
-    public String delete(@PathVariable("id") int id) {
-        userService.delete(id);
-        return "redirect:/users";
+    @GetMapping("user")
+    public String showUser(Model model, @ModelAttribute User user, Principal principal) {
+        model.addAttribute("user", userDetailsService.loadUserByUsername(principal.getName()));
+        return "user";
     }
 }
