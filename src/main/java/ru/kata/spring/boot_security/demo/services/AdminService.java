@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @PreAuthorize("hasRole('ROLE_ADMIN')")
-public class AdminService {
+public class AdminService implements AdminServiceInterface {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -41,11 +41,9 @@ public class AdminService {
 
     @Transactional
     public boolean add(User user) {
-        User userFromDB = userRepository.findByUsername(user.getUsername());
-        if (userFromDB != null) {
-            return false;
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            setRoleDefault(user);
         }
-        setRoleDefault(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return true;
@@ -58,9 +56,13 @@ public class AdminService {
         user.setRoles(roles);
     }
 
+    public List<Role> findAllRoles() {
+        return roleRepository.findAll();
+    }
+
     @Transactional
     public void update(int id, User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(userRepository.findById(id).get().getPassword());
         user.setId(id);
         userRepository.save(user);
     }

@@ -1,0 +1,15 @@
+<header xmlns:sec="http://www.w3.org/1999/xhtml">
+    <nav class="navbar navbar-expand-sm text-bg-primary fixed-top container justify-content-end">
+        <div class="container-fluid justify-content-end">
+            <ul class="navbar-nav container justify-content-end">
+                <li class="nav-item">
+                    <div sec:authorize="isAuthenticated()">
+                        <form th:action="@{/logout}" th:method="POST">
+                            <input type="submit" value="Logout" style="" class="btn btn-info">
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>

@@ -37,7 +37,8 @@ public class AdminController {
     }
 
     @GetMapping("new")
-    public String createNewUser(@ModelAttribute("user") User user) {
+    public String createNewUser(@ModelAttribute("user") User user, Model model) {
+        model.addAttribute("roles", adminService.findAllRoles());
         return "admin/new";
     }
 
@@ -53,6 +54,7 @@ public class AdminController {
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("user", adminService.findOne(id));
+        model.addAttribute("roles", adminService.findAllRoles());
         return "admin/edit";
     }
 

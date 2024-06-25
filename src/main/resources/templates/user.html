@@ -5,16 +5,12 @@
     <title>Show</title>
 </head>
 <body>
-
 <form>
     <p th:text="${'Username - ' + user.getUsername()}">username</p>
-    <p th:text="${'Password - ' + user.getPassword()}">password</p>
+    <p th:text="${'Password - ' + user.getAuthorities()}">password</p>
 </form>
-
 <br/>
 <hr/>
-
 <a href="#" th:href="@{/logout}">Log Out</a>
-
 </body>
 </html>
