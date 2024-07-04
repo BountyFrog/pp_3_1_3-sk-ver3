@@ -7,6 +7,9 @@
         <label for="username">Enter username: </label>
         <input type="text" th:field="*{username}" id="username"/>
         <br/>
+        <label for="password">Enter password: </label>
+        <input type="password" th:field="*{password}" id="password"/>
+        <br/>
         <label for="roles">Select roles: </label>
         <select th:object="${roles}" id="roles" multiple th:field="${user.roles}">
             <option th:each="role : ${roles}"
