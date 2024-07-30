@@ -62,7 +62,7 @@ public class AdminService implements AdminServiceInterface {
 
     @Transactional
     public void update(int id, User user) {
-        if (passwordEncoder.matches(user.getPassword(), userRepository.findById(id).get().getPassword())) {
+        if (user.getPassword().isEmpty() || passwordEncoder.matches(user.getPassword(), userRepository.findById(id).get().getPassword())) {
             user.setPassword(userRepository.findById(id).get().getPassword());
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
